@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}"/>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<link href="{% static 'css/Carousel.css' %}" />
+<body
+ {% if lock.is_lock = True %}
+  <div class="alert alert-danger" role="alert">Sorry , website is Lock !!!</div>
+ {%endif%}
+ {% if lock.is_lock = False %}
+<div class="container">
+  <div class="navbar-wrapper">
+    
+      <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <span class="navbar-brand">Welcome</span>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+               <li class="active"><a href="/">Home</a></li>
+              <li><a href="/index/GetAllArticle">Articles</a></li>
+              {% if request.user.is_superuser %}
+              <li><a href="/admin/">Control Pannel</a></li>
+              {%endif%}
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sign <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/login/">Sing in</a></li>
+                  <li><a href="#">Sign Up</a></li>
+                  <li><a href="#"></a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Facebook login</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Facebook signup</a></li>
+                </ul>
+              </li>
+            </ul>
+        </div>
+        </div>
+      </nav>
+    </div>
+
+
+{%endif%}

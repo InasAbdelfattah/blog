@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    {% load staticfiles %}
+
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<title></title>
+	
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" media="all" />
+	
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
+    <script src="{% static 'js/jquery.inputfocus-0.9.min.js' %}"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+</head>
+<body>
+	
+	<div id="container">
+        <form action="#" method="post">
+	
+            <!-- #first_step -->
+            <div id="first_step">
+                <h1><span>REGISTRATION</span></h1>
+                <div class="form">
+                    {% csrf_token %}
+                    {{ form.as_table }}
+
+                </div>      <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
+                <input class="send submit" type="submit" name="submit_fourth" id="submit_fourth" value="" />
+            </div>      <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
+
+
+            <!-- #second_step -->
+            
+            
+        </form>
+	</div>
+	
+	
+</body>
+</html>

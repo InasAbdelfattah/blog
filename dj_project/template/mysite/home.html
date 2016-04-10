@@ -1,0 +1,22 @@
+{% if user.is_authenticated %}
+    {% include 'site/index.html' %}
+    <p>Welcome, {{ user.username }}  <a href="{% url 'django.contrib.auth.views.logout' %}">[logout]</a></p>
+
+    {% if perms.DjangoAPP %}
+    <p>You have permission to do something in the Django app app.</p>
+    {% if perms.DjangoAPP.can_vote %}
+        <p>You can vote!</p>
+    {% endif %}
+    {% if perms.DjangoAPP.can_drive %}
+        <p>You can drive!</p>
+    {% endif %}
+	{% else %}
+    <p>You don't have permission to do anything in the foo app.</p>
+
+	{% endif %}
+
+{% else %}
+    <p>Welcome, Guest <a href="{% url 'django.contrib.auth.views.login' %}">[login]</a></p>
+
+{% endif %}
+

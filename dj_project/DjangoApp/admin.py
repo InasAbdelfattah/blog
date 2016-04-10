@@ -1,0 +1,161 @@
+from DjangoApp.import_files.model_admin import *
+
+ 
+class UserProfileInline(admin.StackedInline):
+	model=UserProfile
+	extra = 0
+	can_delete = False	
+	# def has_delete_permission(self, request, obj=None):
+	# 	return False
+	# def has_add_permission(self, request):
+	# 	return False
+class ArticleInline(admin.TabularInline):
+	model = Article
+	extra = 0
+	can_delete = False
+	def has_delete_permission(self, request, obj=None):
+		return False
+	def has_add_permission(self, request):
+		return False
+class TagInline(admin.TabularInline):
+	model = Article.tags.through
+	extra = 0
+	can_delete = False
+	def has_delete_permission(self, request, obj=None):
+		return False
+	def has_add_permission(self, request):
+		return False
+class CommentInline(admin.StackedInline):
+	model = Comment
+	extra = 0
+	can_delete = False 
+	def has_delete_permission(self, request, obj=None):
+		return False
+	def has_add_permission(self, request):
+		return False
+class UserAdmin(BaseUserAdmin):
+	list_display = ('username','email','is_staff','is_active','is_superuser',)
+	list_filter = ('is_staff', 'is_superuser')
+	# readonly_fields = ('email','username','first_name','last_name')
+	inlines = (UserProfileInline, ArticleInline)
+	
+	exclude = ['Permissions']
+	def get_form(self, request, obj=None, **kwargs):
+		self.exclude = []
+		if not request.user.is_superuser:
+			self.exclude.append('Permissions') #here!
+		return super(UserAdmin, self).get_form(request, obj, **kwargs)
+	class Meta:
+		model = UserProfile
+class LockSystemAdmin(admin.ModelAdmin):
+	actions = ['Lock','Unlock' ]
+	def Lock(self, request, queryset):
+		queryset.update(is_lock=True)
+		self.message_user(request, 'successfully marked as locked')
+	Lock.short_description = 'lock the site' 
+	def Unlock(self , request ,queryset):
+		queryset.update(is_lock=False)
+		self.message_user(request, 'successfully marked as Unlocked')
+	Unlock.short_description = 'Unlock the site' 
+	list_display = ['Name','is_lock'] 
+	readonly_fields = ('Name','is_lock')
+	can_delete = False
+	class Meta:
+		model = LockSystem	
+	def has_delete_permission(self, request, obj=None):
+		return False
+	def has_add_permission(self, request):
+		return False
+	def has_edit_permission(self, request):
+		return False
+	def get_actions(self, request):
+		#Disable delete or # admin.site.disable_action('delete_selected')
+		actions = super(LockSystemAdmin, self).get_actions(request)
+		del actions['delete_selected']
+		return actions
+class ArticleAdmin(admin.ModelAdmin):
+	actions = ['promote', ]
+	def promote(self, request, queryset):
+		queryset.update(is_publish=True)
+		self.message_user(request, 'The posts are promoted')
+	promote.short_description = 'Approve the article'  
+	list_display = ['subject' ,'is_publish','date','comment_count','veiw_count']
+	# list_editable = ('is_publish',)
+	list_display_links = ['subject']
+	list_filter = ('date','is_publish')
+	readonly_fields = ('comment_count','veiw_count')
+	ordering = ('date',) # The negative sign indicate descendent order
+	search_fields = ['subject']
+	inlines = [TagInline,CommentInline]
+	class Meta:
+		model = Article	
+class CommentAdmin(admin.ModelAdmin):
+	# exclude = ['Article_comment_id']
+	list_display = ['content',]
+class TagAdmin(admin.ModelAdmin):
+	list_display = ['tag_title',]
+	# inlines = [ArticleInline,]
+	class Meta:
+		model = Tag
+
+class ProfanitiesFilter(object):
+	def __init__(self, filterlist, ignore_case=True, replacements="****", complete=True, inside_words=False):
+		self.badwords = filterlist
+		self.ignore_case = ignore_case
+		self.replacements = replacements
+		self.complete = complete
+		self.inside_words = inside_words
+
+	def _make_clean_word(self, length):
+		return ''.join([random.choice(self.replacements) for i in range(length)])
+
+	def __replacer(self, match):
+		value = match.group()
+		if self.complete:
+			return self._make_clean_word(len(value))
+		else:
+			return value[0]+self._make_clean_word(len(value)-2)+value[-1]
+
+	def clean(self, text):
+		regexp_insidewords = {
+			True: r'(%s)',
+			False: r'\b(%s)\b',
+			}
+
+		regexp = (regexp_insidewords[self.inside_words] %  '|'.join(self.badwords))
+
+		r = re.compile(regexp, re.IGNORECASE if self.ignore_case else 0)
+
+		return r.sub(self.__replacer, text)
+
+
+if __name__ == '__main__':
+
+	f = ProfanitiesFilter(['bad', 'un\w+'], replacements="-")    
+	example = "I am doing bad ungood badlike things."
+
+	print f.clean(example)
+	# Returns "I am doing --- ------ badlike things."
+
+	f.inside_words = True    
+	print f.clean(example)
+	# Returns "I am doing --- ------ ---like things."
+
+	f.complete = False    
+	print f.clean(example)
+	# Returns "I am doing b-d u----d b-dlike things."
+
+
+# group = Group.objects.get(name='Regular user')
+# cts = ContentType.objects.filter(app_label='user')
+# perms = Permission.objects.filter(content_type__in=cts)
+# group.permissions.add(*perms)
+admin.site.register(LockSystem,LockSystemAdmin)
+admin.site.register(Comment,CommentAdmin)
+admin.site.register(Article, ArticleAdmin)
+admin.site.register(Tag,TagAdmin)
+admin.site.register(Permission)
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
+# admin.site.disable_action('delete_selected')
+#signals.post_save.connect(notify_admin, sender=User)

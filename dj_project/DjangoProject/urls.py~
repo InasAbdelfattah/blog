@@ -1,0 +1,55 @@
+from DjangoApp.import_files.model_admin import *
+
+# admin.autodiscover()
+
+
+urlpatterns = [
+	url(r'^admin/',admin.site.urls),
+	url(r'^$',views.index),
+	url(r'^Article/create/$',Article_create),
+	url(r'^user/password/reset/$', 
+        'django.contrib.auth.views.password_reset', 
+        {'post_reset_redirect' : '/user/password/reset/done/'},
+        name="password_reset"),
+    url(r'^user/password/reset/done/$',
+        'django.contrib.auth.views.password_reset_done'),
+	url(r'^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', 
+        'django.contrib.auth.views.password_reset_confirm', 
+        {'post_reset_redirect' : '/user/password/done/'}),
+    url(r'^user/password/done/$', 
+        'django.contrib.auth.views.password_reset_complete'),
+	# url(r'^comments/', include('django_comments.urls')),
+
+
+	url(r'^index/(?P<article_id>[0-9]+)/details/$',views.details),
+	url(r'^index/(?P<article_id>[0-9]+)/add/$',views.add),
+	url(r'^index/GetAllArticle/$',views.GetAllArticle),
+	url(r'^delete/(?P<comment_id>[0-9]+)/$',views.Delete_comment),
+	url(r'^mark/(?P<article_id>[0-9]+)/$',views.mark),
+
+    # url(r'^delete/post/(?P<p_id>[0-9]+)/$',removepost),
+
+
+
+
+
+	url(r'^home/$',views.home),
+	url(r'^login/$',views.auth_views.login,name="login"),
+	url(r'^logout/$',views.auth_views.logout,name="logout"),
+	# #url(r'^profile/$',views.profile,name="profile"),
+	url(r'^user/password/reset/$', 
+		'django.contrib.auth.views.password_reset', 
+		{'post_reset_redirect' : '/user/password/reset/done/'},
+		name="password_reset"),
+	url(r'^user/password/reset/done/$',
+		'django.contrib.auth.views.password_reset_done'),
+	url(r'^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', 
+		'django.contrib.auth.views.password_reset_confirm', 
+		{'post_reset_redirect' : '/user/password/done/'}),
+	url(r'^user/password/done/$', 
+		'django.contrib.auth.views.password_reset_complete'),
+
+]
+
+# if settings.DEBUG:
+# 	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

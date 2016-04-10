@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<link href="{% static 'css/Carousel.css' %}" />
+<body>
+<div class="container">
+  <div class="navbar-wrapper">
+    <!-- <div class="container"> -->
+      <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <span class="navbar-brand">Welcome</span>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+               <li class="active"><a href="/">Home</a></li>
+              <li><a href="/index/GetAllArticle">Articles</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sign <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/login/">Sing in</a></li>
+                  <li><a href="/register/">Sign Up</a></li>
+                  
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+	<div class="content">
+		 {% for article in Data %} 
+      <div class="article">
+            <h1>{{article.subject}}</h1>
+            <p>{{article.description}}</p>
+            <p><a class="btn btn-lg btn-primary" href="/index/{{article.id}}/details/" role="button">see more</a></p>
+         
+    
+      </div>
+   {% endfor %}
+	</div>
+	</div>
+</body>
+</html>

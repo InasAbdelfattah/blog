@@ -1,0 +1,107 @@
+<!-- ****************************************** -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    {% load staticfiles %}
+
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/stylee.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" media="all" />
+    
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
+    <script src="{% static 'js/jquery.inputfocus-0.9.min.js' %}"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+</head>
+<body>
+    
+    <div id="container">
+        <form action="#" method="post">
+    
+            <!-- #first_step -->
+            <div id="first_step">
+                <h1><span>Sign In</span></h1>
+                {% block main %}
+    <div id="login">
+   <!--  <div class="panel">
+    <div class="panel-body"> -->
+    {% if form.errors %}
+        <p class="alert alert-danger">
+           Upps, Username and Password didn't match!
+        </p>
+    {% endif %}
+
+        <form class="form-horizontal" name="LoginForm" action="/login/" method="post">
+        {% csrf_token %}
+        {% if next %}
+            <input type="hidden" name="next" value="{{ next }}" />
+        {% endif %}
+        <div class="control-group">
+            <table>
+            <tr>
+                <td>
+                    <label class="control-label" for="username">Username</label>
+                </td>
+                <div class="controls">
+                <td>
+                    <input type="text" id="username" name="username"  placeholder="Username">
+                </td>
+                 </div> 
+            </tr>
+            </div>
+            <div class="control-group">
+            <tr>
+                <td>
+                    <label class="control-label" for="password">Password</label>
+                </td>
+                <div class="controls">
+                <td>
+                    <input type="password" name="password" id="password" placeholder="Password">
+            
+                </td></div> 
+            </tr></div>
+            <tr>
+                <td>
+                    
+                </td>
+            </tr>
+        </table>
+        
+        <input type="checkbox" name="remember_me" id="check" value="true">Remember Me</input>
+        </br>
+        </br>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn" id="lnk">Login</button>
+                <a title="Facebook" class="socialaccount_provider facebook" href="/accounts/facebook/login/?process=login">login with Facebook</a>
+            </div>
+            
+            
+        </div>
+
+        </form>
+        
+        
+    </div>
+    <div>
+                    
+            </div>
+            <span>forget passward?</span><a href="{% url 'django.contrib.auth.views.password_reset' %}">Reset passward</a>
+                      <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
+                
+            </div>      <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
+
+
+            <!-- #second_step -->
+            
+            
+        </form>
+    </div>
+    
+    
+</body>
+</html>
+{% endblock %}

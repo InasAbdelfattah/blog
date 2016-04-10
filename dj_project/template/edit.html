@@ -1,0 +1,38 @@
+{% load staticfiles %}
+ {% load crispy_forms_tags %} 
+
+<html>
+	<head>
+		<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+	</head>
+	<body>
+		<div>	
+		<h2>{{ tempelate_title }}</h2>
+		<form action="edit" method="post" enctype="multipart/form-data">{% csrf_token %}
+			<!-- {{form1.as_p}} -->
+			 {{form1|crispy}} 
+		{# </form> #}
+		{# <form action="">{% csrf_token %} #}
+			{# {{form2|crispy}} #}
+			{# <p><input class="btn btn-primary" type="submit" value="Change"></p> #}
+			<table>
+				<tr>
+					<td>
+						<img src="{{insatance2.image.url}}" width="100" height="150">
+					</td>
+				</tr>
+				<tr>
+					<td><input type="file" name="image" class="btn" /></td>
+					{# <td><input type="submit" class="btn btn-primary" value="submit"/></td> #}
+				</tr>
+				</table>
+			<p><input  class="btn btn-primary" type="submit" value="submit"></p>
+			</form>
+			{# <form action="http://127.0.0.1:9080/edit/" method="post" enctype="multipart/form-data"> #}
+			{# {% csrf_token %} #}
+				
+			{# </form> #}
+		</div>
+	</body>
+</html>

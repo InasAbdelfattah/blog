@@ -1,0 +1,11 @@
+{% block head %}Upload Photo{% endblock %}
+{% block content %}
+<!-- {{ user_id }} -->
+	<form  method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+	<input type="text" name="" value="{{ user_id }}" hidden placeholder="">
+		
+    	{{ form.as_p }}
+    	<input type="submit" value="submit" />
+	</form>
+{% endblock %}

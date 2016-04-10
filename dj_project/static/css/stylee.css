@@ -1,0 +1,29 @@
+#content{width:500px; height: 400px; margin:30px auto; border:2px solid #363F44; padding:30px; border-radius:30px; box-shadow: #806E43 0.5px 0.5px 50px;}
+table{ font-weight:bold; margin:10px;}
+.text{font-size:18px; font-style: italic;}
+#contain{display:-webkit-box;}
+#top{ display: inline-block; border-radius: 20px; padding: 10px; margin-bottom: 20px;}
+a{list-style-type: none;}
+  .thumbnail {
+        position: relative;
+        padding: 0px;
+        margin-bottom: 20px;
+    }
+
+        .thumbnail:hover {
+            background-color: #5CB85C;
+        }
+
+    .votes {
+        font-size: 47px;
+        color: #197BB5;
+        padding: 10px;
+    }
+
+    .thumbnail img {
+        width: 100%;
+    }
+    .Articles{
+    	 box-sizing: border-box;
+    }
+</style>

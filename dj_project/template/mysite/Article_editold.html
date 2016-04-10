@@ -1,0 +1,14 @@
+{% block head %}Edit Article{% endblock %}
+{% block content %}
+{{artData}}
+<form method="post" action="/{{ art.id }}/edit/">
+    {% csrf_token %}
+	<td>
+	<input type="text" name="sub" id="sub" value="{{ artData.subject }}" />
+	</td>
+          
+    <td><input type="text" name="des" id="des" value="{{ artData.description }}" /></td>
+    <input type="submit" id="update" name="update" value="Save Changes"/>
+    </form>
+      
+{% endblock %}

@@ -1,0 +1,40 @@
+
+{% if user.is_authenticated %}
+    {{user.id}}
+    {{perms.DjangoAPP}}
+    {{perms.DjangoAPP.change_article}}
+
+{% block head %}Add Article{% endblock %}
+{% block content %}
+    
+    <form method="post" action="." enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" hidden name="user" id="user" value="{{ user.id }}" placeholder="">
+        <table border="0">
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Add" />
+    </form>
+    <table class="table" border="1">
+        {% for art in data %}
+    
+            <tr>
+                <td><u>subject:{{ art.subject}}</u></td>
+                <td><u>Description:{{ art.description}}</u></td>
+                <td><u>
+                <a href="/{{ art.id }}/edit/">Edit</a>
+                </u></td>
+                <td><u>
+                <a href="/index/{{ art.id }}/delete/">Delete</a>
+                </u></td>
+            <tr>
+        {% endfor %}
+            
+            
+
+   
+{% endblock %}
+{% endif %}
+</div>
+</body>
+</html>

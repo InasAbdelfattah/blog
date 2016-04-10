@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    {% load staticfiles %}
+
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title></title>
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" media="all" />
+    
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
+    <script src="{% static 'js/jquery.inputfocus-0.9.min.js' %}"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+</head>
+<body>
+    
+    <div id="container">
+        <form action="#" method="post">
+    
+            <!-- #first_step -->
+            <div id="first_step">
+                <h1><span>Add Article</span></h1>
+                <div class="form">
+                    
+{% if user.is_authenticated %}
+    {{user.id}}
+    {{perms.DjangoAPP}}
+    {{perms.DjangoAPP.change_article}}
+
+{% block head %}Add Article{% endblock %}
+{% block content %}
+    
+    <form method="post" action="." enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" hidden name="user" id="user" value="{{ user.id }}" placeholder="">
+        <table border="0">
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Add" />
+    </form>
+    <table class="table" border="1">
+        {% for art in data %}
+    
+            <tr>
+                <td><u>subject:{{ art.subject}}</u></td>
+                <td><u>Description:{{ art.description}}</u></td>
+                <td><u>
+                <a href="/{{ art.id }}/edit/">Edit</a>
+                </u></td>
+                <td><u>
+                <a href="/index/{{ art.id }}/delete/">Delete</a>
+                </u></td>
+            <tr>
+        {% endfor %}
+            
+            
+
+   
+{% endblock %}
+{% endif %}
+                </div>      <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
+                <input class="send submit" type="submit" name="submit_fourth" id="submit_fourth" value="" />
+            </div>      <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
+
+
+            <!-- #second_step -->
+            
+            
+        </form>
+    </div>
+    
+    
+</body>
+</html>
